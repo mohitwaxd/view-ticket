@@ -94,7 +94,7 @@
 }
 
 .error-state {
-  padding: 40px 40px 100px 40px; // Add bottom padding for sticky button
+  padding: 40px 40px 80px 40px; // Add bottom padding for sticky button
   text-align: center;
   color: #666;
   
@@ -309,7 +309,7 @@
   right: 0;
   display: flex;
   justify-content: center;
-  padding: 16px 20px;
+  padding: 12px 20px;
   background: #fff;
   border-top: 2px solid #f0f0f0;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
@@ -317,7 +317,7 @@
 }
 
 .ticket-preview-container {
-  padding: 20px 30px 100px 30px; // Add bottom padding to prevent content from being hidden behind sticky button
+  padding: 20px 30px 80px 30px; // Add bottom padding to prevent content from being hidden behind sticky button
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
