@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "dist/zendesk-redirect/browser",
-  "installCommand": "npm install",
+  "framework": "angular",
   "rewrites": [
     {
       "source": "/api/v2/(.*)",
