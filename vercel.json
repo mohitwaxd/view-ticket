@@ -1,10 +1,7 @@
 {
-  "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist/zendesk-redirect/browser",
   "installCommand": "npm install",
-  "cleanUrls": false,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/api/v2/(.*)",
