@@ -272,20 +272,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.ticketPreview = ticket;
       
-      // Filter out first comment if it matches the description
-      if (comments.length > 0 && ticket && ticket.description) {
-        const firstComment = comments[0];
-        const descriptionText = this.normalizeText(ticket.description);
-        const firstCommentText = this.normalizeText(firstComment.html_body || firstComment.body || firstComment.plain_body || '');
-        
-        // Remove first comment if it matches description (exact match or substantial overlap)
-        if (this.isTextSimilar(descriptionText, firstCommentText)) {
-          this.ticketComments = comments.slice(1);
-        } else {
-          this.ticketComments = comments;
-        }
+      // Remove first comment as it's typically the same as the description
+      // In Zendesk, the first comment is usually a duplicate of the ticket description
+      if (comments.length > 0) {
+        this.ticketComments = comments.slice(1);
       } else {
-        this.ticketComments = comments;
+        this.ticketComments = [];
       }
     } catch (error) {
       console.error('Error fetching ticket preview:', error);
@@ -294,61 +286,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private stripHtml(html: string): string {
-    if (!html) return '';
-    // Create a temporary div element to parse HTML
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-  }
-
-  private normalizeText(text: string): string {
-    if (!text) return '';
-    // Strip HTML first
-    const plainText = this.stripHtml(text);
-    // Normalize whitespace: replace multiple spaces/newlines with single space, trim
-    return plainText
-      .replace(/\s+/g, ' ')  // Replace all whitespace (spaces, newlines, tabs) with single space
-      .trim()
-      .toLowerCase();  // Case-insensitive comparison
-  }
-
-  private isTextSimilar(text1: string, text2: string): boolean {
-    if (!text1 || !text2) return false;
-    
-    const normalized1 = this.normalizeText(text1);
-    const normalized2 = this.normalizeText(text2);
-    
-    // Exact match
-    if (normalized1 === normalized2) return true;
-    
-    // Check if one contains the other (for substantial overlap)
-    // Use a threshold: if 80% of the shorter text is in the longer text, consider it similar
-    const shorter = normalized1.length < normalized2.length ? normalized1 : normalized2;
-    const longer = normalized1.length >= normalized2.length ? normalized1 : normalized2;
-    
-    if (shorter.length === 0) return false;
-    
-    // Check if shorter text is substantially contained in longer text
-    if (longer.includes(shorter)) {
-      // If the shorter text is at least 80% of the longer text, consider it a match
-      const similarityRatio = shorter.length / longer.length;
-      if (similarityRatio >= 0.8) return true;
-    }
-    
-    // Check if they share substantial content (for cases with minor differences)
-    const words1 = normalized1.split(' ').filter(w => w.length > 3); // Filter out short words
-    const words2 = normalized2.split(' ').filter(w => w.length > 3);
-    
-    if (words1.length === 0 || words2.length === 0) return false;
-    
-    // Count matching words
-    const matchingWords = words1.filter(word => words2.includes(word)).length;
-    const similarity = matchingWords / Math.max(words1.length, words2.length);
-    
-    // If 85% of significant words match, consider them similar
-    return similarity >= 0.85;
-  }
 
   async onViewTicket(): Promise<void> {
     if (this.ticketId) {
