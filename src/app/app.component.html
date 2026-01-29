@@ -56,7 +56,7 @@
             </div>
           }
 
-          <div class="ticket-actions">
+          <div class="ticket-actions-sticky">
             <app-button
               label="View Full Ticket"
               (clicked)="onViewTicket()"
@@ -66,10 +66,12 @@
       } @else {
         <div class="error-state">
           <p>Unable to load ticket preview. Please try again or view the ticket directly.</p>
-          <app-button
-            label="View Ticket"
-            (clicked)="onViewTicket()"
-          ></app-button>
+          <div class="ticket-actions-sticky">
+            <app-button
+              label="View Ticket"
+              (clicked)="onViewTicket()"
+            ></app-button>
+          </div>
         </div>
       }
     </div>

@@ -271,12 +271,37 @@ export class AppComponent implements OnInit, OnDestroy {
       ]);
 
       this.ticketPreview = ticket;
-      this.ticketComments = comments;
+      
+      // Filter out first comment if it matches the description
+      if (comments.length > 0 && ticket && ticket.description) {
+        const firstComment = comments[0];
+        const descriptionText = this.stripHtml(ticket.description).trim();
+        const firstCommentText = this.stripHtml(firstComment.html_body || firstComment.body || firstComment.plain_body || '').trim();
+        
+        // Remove first comment if it matches description
+        if (descriptionText === firstCommentText || 
+            firstCommentText.includes(descriptionText) || 
+            descriptionText.includes(firstCommentText)) {
+          this.ticketComments = comments.slice(1);
+        } else {
+          this.ticketComments = comments;
+        }
+      } else {
+        this.ticketComments = comments;
+      }
     } catch (error) {
       console.error('Error fetching ticket preview:', error);
     } finally {
       this.isLoadingTicket = false;
     }
+  }
+
+  private stripHtml(html: string): string {
+    if (!html) return '';
+    // Create a temporary div element to parse HTML
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
   }
 
   async onViewTicket(): Promise<void> {
