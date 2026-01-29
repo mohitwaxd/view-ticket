@@ -257,6 +257,13 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  convertMarkdownToHtml(text: string): string {
+    if (!text) return '';
+    // Convert **text** to <strong>text</strong>
+    // Use regex to match **text** but avoid matching **** (empty bold)
+    return text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  }
+
   async fetchTicketPreview(): Promise<void> {
     if (!this.ticketId) return;
 

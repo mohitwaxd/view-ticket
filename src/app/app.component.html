@@ -29,7 +29,7 @@
 
           <div class="ticket-description">
             <h3>Description</h3>
-            <div class="description-content" [innerHTML]="ticketPreview.description || 'No description available'"></div>
+            <div class="description-content" [innerHTML]="convertMarkdownToHtml(ticketPreview.description || 'No description available')"></div>
           </div>
 
           @if (ticketComments.length > 0) {
@@ -46,7 +46,7 @@
                         <span class="comment-type internal">Internal</span>
                       }
                     </div>
-                    <div class="comment-body" [innerHTML]="comment.html_body || comment.body"></div>
+                    <div class="comment-body" [innerHTML]="convertMarkdownToHtml(comment.html_body || comment.body || '')"></div>
                   </div>
                 }
                 @if (ticketComments.length > 3) {
