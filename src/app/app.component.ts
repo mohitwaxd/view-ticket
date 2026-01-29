@@ -68,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedCustomerSuccessTeamMembers: User[] = [];
 
   createTicketMode: boolean = false;
+  hasNoQueryParams: boolean = false;
   
   constructor(private route: ActivatedRoute) {
   }
@@ -107,10 +108,13 @@ export class AppComponent implements OnInit, OnDestroy {
         name: this.ticketCreatorName,
     }
 
+    // No query params: show only View Tickets button (CCD requests)
+    this.hasNoQueryParams = !this.ticketId && this.enterpriseIds.length === 0;
+
     // If ticket_id is provided, fetch ticket preview
     if (this.ticketId) {
       await this.fetchTicketPreview();
-    } else {
+    } else if (!this.hasNoQueryParams) {
       await this.initializeData();
     }
   }
@@ -312,6 +316,12 @@ export class AppComponent implements OnInit, OnDestroy {
   async onViewTickets(): Promise<void> {
     this.returnToUrl = `${environment.zendeskUrl}/hc/en-us/requests?query=&page=1&selected_tab_name=my-requests&filter_custom_field_26502721658141=%3A"${this.selectedEnterprise?.id}"`;
 
+    await this.submitJwtForm(this.returnToUrl);
+  }
+
+  /** When page opens without query params: validate auth and open CCD requests in new tab */
+  async onViewTicketsCcd(): Promise<void> {
+    this.returnToUrl = `${environment.zendeskUrl}/hc/en-us/requests?query=&page=1&selected_tab_name=ccd-requests`;
     await this.submitJwtForm(this.returnToUrl);
   }
   

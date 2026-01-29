@@ -24,11 +24,21 @@
   gap: 40px;
 }
 
+.content-container--single {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-container {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
+}
+
+.btn-container--single {
+  margin-top: 20px;
 }
 
 .footer-container {

@@ -75,8 +75,18 @@
         </div>
       }
     </div>
+  } @else if (hasNoQueryParams) {
+    <!-- No query params: only View Tickets button (auth + open CCD requests in new tab) -->
+    <div class="content-container content-container--single">
+      <div class="btn-container btn-container--single">
+        <app-button
+          label="View Tickets"
+          (clicked)="onViewTicketsCcd()"
+        ></app-button>
+      </div>
+    </div>
   } @else {
-    <!-- Normal Mode (when no ticket_id) -->
+    <!-- Normal Mode (when ticket_id not set but enterprise params present) -->
     <div class="content-container">
       <app-dropdown
         label="Select Enterprise"
