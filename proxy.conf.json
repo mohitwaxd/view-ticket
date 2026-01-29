@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://telecrm-tickets.zendesk.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

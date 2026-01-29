@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/zendesk-redirect/browser",
+  "rewrites": [
+    {
+      "source": "/api/v2/(.*)",
+      "destination": "https://telecrm-tickets.zendesk.com/api/v2/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
